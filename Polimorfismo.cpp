@@ -1,147 +1,123 @@
-// Polimorfismo.cpp
-//
-
-// 4PilaresPOO.cpp
-// Kevin Vel√°zquez
-
-// Clase 3 Herencia y Encapsulamiento 23/02/2022
+// Polimorfismo.cpp 
+// Kevin Cabrera
 
 #include <iostream>
-#include <string>
 using namespace std;
 
-/*
-// Clase padre o base que brinda los atributos
-class Sauropsida
-{
-	// Se podr√° acceder a estos atributos porque se declara public
-public:
-	string clade = "Sauropsida";
+// DeclaraciÛn de la clase base
 
-	//Primer m√©todo
-	void Sauropsidos()
-	{
-		cout << "Sauropsida, ";
-		cout << "vertebrados ";
-	};
+class Animales
+{
+private: 	// Atributos privados
+	string especie;
+	int cantidad;
+
+public: // Atributos publicos
+	Animales(string, int); // DeclaraciÛn del constructor Animales
+	virtual void peligro();
 };
 
-// Primer clase hija o derivada que heredar√° los atributos de la clase base y proporcionar√° nuevas caracter√≠sticas
-class Romeriidans : public Sauropsida
+Animales::Animales(string Especie, int Cantidad) // Se asignan los valores al constructor Animales
 {
-	// Se podr√° acceder a estos atributos porque se declara public
-public:
-	string huesos = "gruesos y densos, ";
-};
-
-// Segunda  clase hija o derivada que heredar√° los atributos de la clase anterior y proporcionar√° nuevas caracter√≠sticas
-class Diapsida : public Romeriidans
-{
-public:
-	string adaptacion = "nadar";
-};
-
-int main()
-{
-	// Se llama a la √∫ltima clase y se define una variable local para brindarle las caracter√≠sticas
-	Diapsida Reptile;
-	// Se llama al m√©todo de la primer clase o clase padre/base
-	Reptile.Sauropsidos();
-	// Se imprimen las caracter√≠sticas de todas las clases
-	cout << Reptile.clade + " " + Reptile.huesos; +" " + Reptile.adaptacion;
-
-	return 0;
-}
-*/
-
-// Clase 5 Polimorfismo
-
-class Persona
-{
-private: // Atributos privados
-	string nombre;
-	int edad;
-
-public: 
-	Persona(string, int); // Declaracion de constructor Persona
-	virtual void mostrar(); // Metodo virtual, con esto podemos trabajar con el Polimorfismo en C++
-
-};
-Persona::Persona(string _nombre, int _edad) // Asignamos valores al constructor
-{
-	nombre = _nombre; // Asignamos el valor que estamos declarando en el constructor a las variables propias de la clase
-	edad = _edad;
+	// Asignamos valores del constructor a las variables de la clase
+	especie = Especie; 
+	cantidad = Cantidad;	
 }
 
-void Persona::mostrar() // Definimos el comportamiento de la funcion o metodo de persona -> mostrar
+void Animales::peligro() // Definimos el mÈtodo peligro
 {
-	cout << "Nombre: " << nombre << endl;
-	cout << "Edad: " << edad << endl;
-	if (edad >= 18)
+	// Se piden datos al usuario para ser almacenados
+	cout << "Especie: " << especie << endl;
+	cout << "Ejemplares: " << cantidad << endl;
+
+	// MÈtodo de condicionales para acceder y modificar las variables privadas
+	if (cantidad < 5)
 	{
-		cout << "Es mayor de edad" << endl;
+		cout << "Extinta en el medio silvestre";
+		cout << "\n";
 	}
-};
+	if (cantidad >= 5 && cantidad < 15)
+	{
+		cout << "En peligro de extincion";
+		cout << "\n";
+	}
+	if (cantidad >= 15 && cantidad < 25)
+	{
+		cout << "Especie amenazada";
+		cout << "\n";
+	}
+	if (cantidad >= 25)
+	{
+		cout << "ProtecciÛn Especial";
+		cout << "\n";
+	}
 
-class Alumno : public Persona
-{
-private:
-	float calificacion;
-
-public:
-	
-	Alumno(string, int, float); // Constructor de la clase
-	void mostrar();
-};
-
-Alumno::Alumno(string _nombre, int _edad, float _calificacion) : Persona(_nombre, _edad)
-{
-	calificacion = _calificacion;
-};
-
-void Alumno::mostrar()
-{
-	Persona::mostrar();
-	cout << "Calificacion: " << calificacion << endl;
-};
-
-class Profesor : public Persona
-{
-private:
-	string materia;
-public:
-	Profesor(string, int, string);
-	void mostrar();
-};
-
-Profesor::Profesor(string _nombre, int _edad, string _materia) : Persona(_nombre, _edad)
-{
-	materia = _materia;
 }
 
-void Profesor::mostrar()
+// Subclase 1
+class Jaguar : public Animales // Acceder· a los atributos de la clase base
 {
-	Persona::mostrar();
-	cout << "Materia: " << materia << endl;
+private: 
+	string region; // Se declara una varible como atributo privado
+
+public:
+	Jaguar(string, int, string); // Constructor de clase
+	void peligro();
 };
+
+// Se accede a la clase base para heredar los atributos
+Jaguar::Jaguar(string Especie, int Cantidad, string Region) : Animales(Especie, Cantidad)
+{
+	region = Region;
+}
+
+void Jaguar::peligro() // MÈtodo para la subclase
+{
+	Animales::peligro();
+	cout << "Region de la especie: " << region << endl;
+};
+
+// Subclase 2
+class Guacamayas : public Animales // Acceder· a los atributos de la clase base
+{
+private:
+	int huevos; // Atributos privados
+
+public:
+	Guacamayas(string, int, int); // Atributos p˙blicos
+	void peligro(); // Se llama a la funciÛn peligro integrando los atributos de esta subclase
+};
+
+Guacamayas::Guacamayas(string Especie, int Cantidad, int Huevos) : Animales(Especie, Cantidad) // Se heredan atributos
+{
+	huevos = Huevos; // Se le asignan datos a la variable de la clase Guacamayas
+}
+
+void Guacamayas::peligro() // MÈtodo peligro para los atributos de la Subclase Guacamayas
+{
+	Animales::peligro();
+	cout << "Cantidad de huevos: " << huevos << endl;
+}
 
 int main()
 {
-	Persona* Arreglo[4];
+	// Arreglo con puntero para acceder a cada elemento
 
-	Arreglo[0] = new Alumno("Oscar", 21, 8.9);
-	Arreglo[1] = new Alumno("Jair", 25, 9);
-	Arreglo[2] = new Alumno("Israel", 22, 7.9);
-	Arreglo[3] = new Profesor("Miguel", 30, "Tecnologias de la Programacion");
+	Animales* Arreglo[3];
 
-	Arreglo[0]->mostrar();
+	// Se asignan valores a las variables de cada elemento del arreglo dependiendo de la Subclase
+	Arreglo[0] = new Jaguar("Panthera Onca", 8, "Chiapas");
+	Arreglo[1] = new Guacamayas("Ara macao", 4, 10);
+	Arreglo[2] = new Guacamayas("Ara militaris", 16, 13);
+
+	// Se llama al mÈtodo peligro para cada elemento del arreglo
+	Arreglo[0]->peligro();
 	cout << "\n";
-	Arreglo[1]->mostrar();
+	Arreglo[1]->peligro();
 	cout << "\n";
-	Arreglo[2]->mostrar();
-	cout << "\n";
-	Arreglo[3]->mostrar();
+	Arreglo[2]->peligro();
 	cout << "\n";
 	
 	return 0;
-};
+
+}
